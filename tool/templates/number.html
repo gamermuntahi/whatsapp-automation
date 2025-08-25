@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Number Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #hero {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        #hero h1 {
+            font-size: 22px;
+            color: #3f3f3f;
+            margin-bottom: 25px;
+        }
+
+        #hero h1 img {
+            height: 24px;
+            vertical-align: middle;
+        }
+
+        #number,
+        #product {
+            width: 90%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        #number:focus,
+        #product:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 8px rgba(118, 75, 162, 0.4);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 15px 5px 0 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background: #764ba2;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #postcode {
+            font-weight: bold;
+            margin-right: 6px;
+            color: #764ba2;
+        }
+
+        @media screen and (max-width: 480px) {
+            #hero {
+                padding: 30px 20px;
+            }
+
+            #hero h1 {
+                font-size: 20px;
+            }
+
+            #number,
+            #product {
+                width: 95%;
+            }
+
+            .btn {
+                width: 90%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="hero">
+        <button class="btn"><a href="/" style="color:white; text-decoration: none;">← Back</a></button>
+        <h1>👉 Enter WhatsApp <img src="img/img.png" alt=""> number (without +880) 👈</h1>
+
+        <div style="margin: 15px 0;">
+            <span id="postcode">+880</span>
+            <input id="number" type="number" placeholder="1xxxxxxxxx">
+        </div>
+
+        <select title="product" name="product" id="product">
+            {% for product in products %}
+            <option value="{{ product.name }}">{{ product.name }}</option>
+            {% endfor %}
+        </select>
+
+        <br>
+        <button id="ant" class="btn">📥 Store</button>
+    </div>
+
+    <script>
+        const button = document.getElementById('ant');
+
+        button.addEventListener('click', () => {
+            const input = document.getElementById('number');
+            const product = document.getElementById('product').value;
+            const number = input.value.trim();
+            var number1 = number
+            if (!number || number.length !== 10) {
+                alert("⚠️ Please enter a valid number.");
+                return;
+            }
+            if (number1 > 1999999999 || number1 < 1000000000) {
+                alert("⚠️ Please enter a valid number.");
+                return;
+            }
+            if (!product) {
+                alert("⚠️ Please select a product.");
+                return;
+            }
+
+            fetch('/store', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ number, product })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert("✅ " + data.message);
+                    input.value = "";
+                    document.getElementById('product').value = "";
+                })
+                .catch(err => {
+                    console.error("Fetch error:", err);
+                    alert("❌ Error sending number. See console for details.");
+                });
+        });
+    </script>
+</body>
+
+</html>
