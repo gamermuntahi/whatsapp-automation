@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Console Output</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #00ff99;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            min-height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Home button outside console panel */
+        .home-btn {
+            background: #00ff99;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .home-btn:hover {
+            background: #00cc77;
+        }
+
+        .console-container {
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px #00ff99;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+            flex-shrink: 0;
+        }
+
+        .line {
+            padding: 3px 0;
+            opacity: 0;
+            animation: fadeIn 0.6s forwards;
+            border-left: 3px solid #00ff99;
+            margin-bottom: 2px;
+            padding-left: 10px;
+            text-shadow: 0 0 2px #00ff99;
+            word-break: break-word;
+        }
+
+        .console-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .console-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .console-container::-webkit-scrollbar-thumb {
+            background: #00ff99;
+            border-radius: 4px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            background: #00ff99;
+            margin-left: 2px;
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 800px) {
+            .console-container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .home-btn {
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .console-container {
+                padding: 12px;
+                font-size: 14px;
+                max-height: 70vh;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .home-btn {
+                padding: 5px 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .console-container {
+                padding: 10px;
+                font-size: 12px;
+                max-height: 60vh;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .home-btn {
+                padding: 4px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Home button above console -->
+    <a href="/" class="home-btn">Home</a>
+
+    <div class="console-container" id="console">
+        <h2>Console Output</h2>
+        <div class="line" id="cursorLine">_<span class="cursor"></span></div>
+    </div>
+
+    <script>
+        const consoleContainer = document.getElementById('console');
+
+        async function fetchConsole() {
+            try {
+                const response = await fetch('/console_data');
+                if (!response.ok) throw new Error('Network response not ok');
+                const data = await response.json();
+
+                consoleContainer.innerHTML = '<h2>Console Output</h2>';
+                data.forEach(line => {
+                    const div = document.createElement('div');
+                    div.className = 'line';
+                    div.textContent = line;
+                    consoleContainer.appendChild(div);
+                });
+
+                // Add cursor at the bottom
+                const cursorDiv = document.createElement('div');
+                cursorDiv.className = 'line';
+                cursorDiv.innerHTML = '_<span class="cursor"></span>';
+                consoleContainer.appendChild(cursorDiv);
+
+                consoleContainer.scrollTo({ top: consoleContainer.scrollHeight, behavior: 'smooth' });
+            } catch (err) {
+                consoleContainer.textContent = 'Error fetching console data';
+                console.error(err);
+            }
+        }
+
+        fetchConsole();
+        setInterval(fetchConsole, 5000);
+    </script>
+</body>
+
+</html>

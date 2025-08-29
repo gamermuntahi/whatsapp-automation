@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Product List</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    #ant {
+      padding: 14px 28px;
+      background-color: #3f5063;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    #ant:hover {
+      background-color: #2c3e50;
+    }
+
+    #ant a {
+      color: white;
+      text-decoration: none;
+    }
+
+    table {
+      width: 100%;
+      max-width: 900px;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 16px;
+    }
+
+    th {
+      background: #3f5063;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.2s;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    @media screen and (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      #ant {
+        width: 90%;
+        font-size: 18px;
+        padding: 12px 0;
+      }
+
+      table,
+      th,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      th {
+        display: none;
+      }
+
+      td {
+        text-align: right;
+        padding-left: 50%;
+        font-size: 18px;
+        position: relative;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        display: block;
+        border-bottom: 2px solid #ddd;
+      }
+
+      .delete-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📦 Product List</h1>
+  <button id="ant"><a href="/">← Back</a></button>
+
+  <table>
+    <tr>
+      <th>SL No</th>
+      <th>Product</th>
+      <th>Action</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+      <td data-label="SL No">{{ loop.index }}</td>
+      <td data-label="Product">{{ product.product_info }}</td>
+      <td data-label="Action">
+        <form action="{{ url_for('delete_product_route', product_id=product.id) }}" method="post">
+          <button type="submit" class="delete-btn">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+
+</html>

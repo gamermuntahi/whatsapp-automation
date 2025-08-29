@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ content }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .box {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-size: clamp(20px, 4vw, 26px);
+            /* scales with screen */
+        }
+
+        p {
+            font-size: clamp(16px, 3.5vw, 20px);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #4facfe;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+            font-size: clamp(14px, 3.5vw, 18px);
+        }
+
+        .btn:hover {
+            background: #00c6ff;
+            transform: scale(1.05);
+        }
+
+        /* Extra responsiveness */
+        @media (max-width: 480px) {
+            .box {
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>{{ content }}</h1>
+        {% if content == "True" %}
+        <p>✅ Welcome</p>
+        <a href="/" class="btn">Enter</a>
+        {% else %}
+        <p>❌ Wrong password</p>
+        <a href="/login" class="btn">Try again</a>
+        {% endif %}
+    </div>
+</body>
+
+</html>

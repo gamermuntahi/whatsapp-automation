@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stored Numbers</title>
+    <style>
+        /* Global */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+        }
+
+        /* Header */
+        header {
+            background: #2c3e50;
+            color: #ffffff;
+            text-align: center;
+            padding: 25px 0;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        header a {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-decoration: none;
+            color: #ffffff;
+            background: #ffffff20;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            background: #ffffff40;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.15);
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Number list */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #f0f3f7;
+            margin: 10px 0;
+            padding: 15px 20px;
+            border-left: 5px solid #2c3e50;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        li:hover {
+            background: #2c3e50;
+            color: #ffffff;
+            cursor: default;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            li {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Stored Numbers</h1>
+        <a href="/">← Back</a>
+    </header>
+
+    <div class="container">
+        <h2>All Unique Numbers</h2>
+        {% if numbers %}
+        <ul>
+            {% for number in numbers %}
+            <li>{{ number }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No numbers stored yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
