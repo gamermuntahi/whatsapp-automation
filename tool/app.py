@@ -49,11 +49,14 @@ def stay_valid():
     nm = dt.minute
     ns = dt.second
     CURRENT_TIME = str((nh*3600) + (nm*60) + (ns*1))
-    el = (int(CURRENT_TIME) - int(VALID_TIME))
-    if el > valid_time:
+    if int(CURRENT_TIME) < VALID_TIME:
         return render_template("login.html")
     else:
-        return True
+        el = (int(CURRENT_TIME) - int(VALID_TIME))
+        if el > valid_time:
+            return render_template("login.html")
+        else:
+            return True
 
 def save_product(product_info):
     products = load_products()
